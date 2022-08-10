@@ -13,6 +13,6 @@ public class Hello {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public String hello(){
-        return "Hello, World 5!";
+        return "Hello, World 6!";
     }
 }
