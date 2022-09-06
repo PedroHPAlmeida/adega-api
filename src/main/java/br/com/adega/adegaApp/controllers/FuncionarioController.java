@@ -38,8 +38,8 @@ public class FuncionarioController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Funcionario> listarFuncionarios(){
-        return funcionarioService.listarFuncionarios();
+    public List<FuncionarioDto> listarFuncionarios(){
+        return FuncionarioDto.converter(funcionarioService.listarFuncionarios());
     }
 
     @GetMapping(path = "/{nome}")
