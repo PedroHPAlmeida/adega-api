@@ -2,13 +2,12 @@ package br.com.adega.adegaApp.controllers.form;
 
 import br.com.adega.adegaApp.entities.Funcionario;
 import br.com.adega.adegaApp.entities.Perfil;
-import br.com.adega.adegaApp.execeptions.PerfilNaoEncontradoException;
+import br.com.adega.adegaApp.exceptions.PerfilNaoEncontradoException;
 import br.com.adega.adegaApp.services.PerfilService;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
