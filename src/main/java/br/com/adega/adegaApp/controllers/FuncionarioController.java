@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,12 +29,16 @@ public class FuncionarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Funcionario salvar(@RequestBody FuncionarioForm funcionarioForm){
+    public ResponseEntity<FuncionarioDto> salvar(@RequestBody FuncionarioForm funcionarioForm, UriComponentsBuilder uriBuilder){
         try {
             Funcionario funcionario = funcionarioForm.converter(perfilService);
-            return funcionarioService.salvar(funcionario);
+            funcionarioService.salvar(funcionario);
+            URI uri = uriBuilder.path("/api/funcionarios/{id}").buildAndExpand(funcionario.getIdFuncionario()).toUri();
+            return ResponseEntity
+                    .created(uri)
+                    .body(new FuncionarioDto(funcionario));
         } catch (PerfilNaoEncontradoException ex){
-            return new Funcionario();
+            return ResponseEntity.notFound().build();
         }
     }
 
