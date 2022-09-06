@@ -29,4 +29,8 @@ public class FuncionarioService {
     public Optional<Funcionario> buscarPorEmail(String email){
         return funcionarioRepository.findByEmail(email);
     }
+
+    public Optional<Funcionario> buscarPorId(Long id) {
+        return funcionarioRepository.findById(id);
+    }
 }

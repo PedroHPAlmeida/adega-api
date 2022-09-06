@@ -1,6 +1,7 @@
 package br.com.adega.adegaApp.config.security;
 
 import br.com.adega.adegaApp.entities.Funcionario;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,5 +28,19 @@ public class TokenService {
                 .setExpiration(new Date(new Date().getTime() + Long.parseLong(expiration)))
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
+    }
+
+    public boolean isTokenValido(String token) {
+        try {
+            Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token);
+            return true;
+        } catch (Exception ex){
+            return false;
+        }
+    }
+
+    public Long getIdFuncionario(String token) {
+        Claims claims = Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
+        return Long.parseLong(claims.getSubject());
     }
 }
