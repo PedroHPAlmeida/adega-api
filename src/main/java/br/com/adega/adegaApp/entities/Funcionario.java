@@ -1,7 +1,7 @@
 package br.com.adega.adegaApp.entities;
 
-import br.com.adega.adegaApp.entities.enums.NivelAcesso;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@Setter
+@Getter @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "funcionarios")
 public class Funcionario implements UserDetails {
@@ -30,8 +30,20 @@ public class Funcionario implements UserDetails {
     private String email;
     private String senha;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_perfil")
+    @JoinTable(name = "funcionario_perfis",
+            joinColumns = { @JoinColumn(name = "id_funcionario") },
+            inverseJoinColumns = { @JoinColumn(name = "id_perfil")})
     private List<Perfil> perfis = new ArrayList<>();
+
+    public Funcionario(String cpf, String nome, LocalDate dataNascimento, String telefone, String email, String senha, List<Perfil> perfis) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.dataNascimento = dataNascimento;
+        this.telefone = telefone;
+        this.email = email;
+        this.senha = senha;
+        this.perfis = perfis;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

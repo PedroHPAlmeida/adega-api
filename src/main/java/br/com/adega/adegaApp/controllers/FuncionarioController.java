@@ -1,7 +1,10 @@
 package br.com.adega.adegaApp.controllers;
 
+import br.com.adega.adegaApp.controllers.form.FuncionarioForm;
 import br.com.adega.adegaApp.entities.Funcionario;
+import br.com.adega.adegaApp.execeptions.PerfilNaoEncontradoException;
 import br.com.adega.adegaApp.services.FuncionarioService;
+import br.com.adega.adegaApp.services.PerfilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +19,18 @@ public class FuncionarioController {
     @Autowired
     private FuncionarioService funcionarioService;
 
+    @Autowired
+    private PerfilService perfilService;
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Funcionario salvar(@RequestBody Funcionario funcionario){
-        return funcionarioService.salvar(funcionario);
+    public Funcionario salvar(@RequestBody FuncionarioForm funcionarioForm){
+        try {
+            Funcionario funcionario = funcionarioForm.converter(perfilService);
+            return funcionarioService.salvar(funcionario);
+        } catch (PerfilNaoEncontradoException ex){
+            return new Funcionario();
+        }
     }
 
     @GetMapping
