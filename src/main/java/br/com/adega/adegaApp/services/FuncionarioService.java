@@ -25,4 +25,8 @@ public class FuncionarioService {
     public List<Funcionario> listarFuncionarios(){
         return funcionarioRepository.findAll();
     }
+
+    public Optional<Funcionario> buscarPorEmail(String email){
+        return funcionarioRepository.findByEmail(email);
+    }
 }
