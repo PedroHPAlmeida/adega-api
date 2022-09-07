@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: ${GITHUB_REF##*/}
   pull_request:
-    branches: [ "develop" ]
+    branches: ${GITHUB_REF##*/}
 
 jobs:
   build:
