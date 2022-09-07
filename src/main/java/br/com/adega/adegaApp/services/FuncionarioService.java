@@ -3,6 +3,7 @@ package br.com.adega.adegaApp.services;
 import br.com.adega.adegaApp.entities.Funcionario;
 import br.com.adega.adegaApp.repositories.IFuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,8 @@ public class FuncionarioService {
     private PerfilService perfilService;
 
     public Funcionario salvar(Funcionario funcionario){
+        String senhaCriptografada = new BCryptPasswordEncoder().encode(funcionario.getSenha());
+        funcionario.setSenha(senhaCriptografada);
         return funcionarioRepository.save(funcionario);
     }
 
