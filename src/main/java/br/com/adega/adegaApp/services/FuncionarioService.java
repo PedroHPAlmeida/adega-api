@@ -18,7 +18,6 @@ public class FuncionarioService {
     private PerfilService perfilService;
 
     public Funcionario salvar(Funcionario funcionario){
-        perfilService.salvar(funcionario.getPerfis().get(0));
         return funcionarioRepository.save(funcionario);
     }
 
